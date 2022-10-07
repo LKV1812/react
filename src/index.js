@@ -2,6 +2,7 @@ import Post from "./Post";
 import "@/style.css";
 import * as $ from "jquery"
 import "./scss.scss"
+import './babel'
 
 const post = new Post('Webpack Post Title');
 

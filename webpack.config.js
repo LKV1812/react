@@ -33,7 +33,8 @@ module.exports = {
     context: path.resolve(__dirname, 'src'),
     mode: "development",
     entry: {
-        main: './index.js',
+        main: ["@babel/polyfill", './index.js'],
+        analytics: './analytics.ts'
     },
     output: {
         filename: filename('js'),
@@ -77,16 +78,6 @@ module.exports = {
             {
                 test: /\.css$/i,
                 use: [MiniCssExtractPlugin.loader, "css-loader"],
-                // use: [
-                //     {
-                //         loader: MiniCssExtractPlugin.loader,
-                //         options: {
-                //             hmr: isDev,
-                //             reloadAll: true
-                //         }
-                //     },
-                //     "css-loader"
-                // ]
             },
             {
                 test: /\.s[ac]ss$/i,
@@ -103,6 +94,28 @@ module.exports = {
             {
                 test: /\.xml$/,
                 use: ['xml-loader']
+            },
+            {
+                test: /\.m?js$/,
+                exclude: /node_modules/,
+                use: {
+                    loader: 'babel-loader',
+                    options: {
+                        presets: ['@babel/preset-env'],
+                        plugins: ["@babel/plugin-proposal-class-properties"]
+                    }
+                },
+            },
+            {
+                test: /\.ts$/,
+                exclude: /node_modules/,
+                use: {
+                    loader: 'babel-loader',
+                    options: {
+                        presets: ['@babel/preset-env', '@babel/preset-typescript'],
+                        plugins: ["@babel/plugin-proposal-class-properties"]
+                    }
+                },
             }
         ]
     }
