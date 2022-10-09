@@ -1,0 +1,29 @@
+/*!**************************************************************!*\
+  !*** css ../node_modules/css-loader/dist/cjs.js!./style.css ***!
+  \**************************************************************/
+body {
+    text-align: center;
+}
+
+h1 {
+    color: brown;
+}
+
+.test {
+    color: blue;
+}
+
+.test2 {
+    font-weight: bold;
+}
+/*!******************************************************************************************************!*\
+  !*** css ../node_modules/css-loader/dist/cjs.js!../node_modules/sass-loader/dist/cjs.js!./scss.scss ***!
+  \******************************************************************************************************/
+.test-scss {
+  padding: 3rem 0;
+  width: 500px;
+  margin: 0 auto;
+  border: 2px solid #cccccc;
+}
+
+/*# sourceMappingURL=main.css.map*/

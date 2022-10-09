@@ -5,6 +5,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
+const ESLintPlugin = require('eslint-webpack-plugin');
 
 const isDev = process.env.NODE_ENV === 'development'
 const isProd = !isDev
@@ -28,13 +29,27 @@ const optimization = () => {
 
 const filename = ext => isDev ? `[name].${ext}` : `[name].[contenthash].${ext}`
 
+const babelOptions = preset => {
+    const opts = {
+        loader: 'babel-loader',
+        options: {
+            presets: ['@babel/preset-env'],
+            plugins: ["@babel/plugin-proposal-class-properties"]
+        }
+    };
+
+    if (preset) opts.options.presets.push(preset)
+
+    return opts
+}
+
 module.exports = {
     target: process.env.NODE_ENV === "development" ? "web" : "browserslist",
     context: path.resolve(__dirname, 'src'),
     mode: "development",
     entry: {
-        main: ["@babel/polyfill", './index.js'],
-        analytics: './analytics.ts'
+        main: ["@babel/polyfill", './index.jsx'],
+        analytics: ["@babel/polyfill", './analytics.ts']
     },
     output: {
         filename: filename('js'),
@@ -71,7 +86,8 @@ module.exports = {
         ),
         new MiniCssExtractPlugin({
             filename: filename('css')
-        })
+        }),
+        new ESLintPlugin()
     ],
     module: {
         rules: [
@@ -98,25 +114,20 @@ module.exports = {
             {
                 test: /\.m?js$/,
                 exclude: /node_modules/,
-                use: {
-                    loader: 'babel-loader',
-                    options: {
-                        presets: ['@babel/preset-env'],
-                        plugins: ["@babel/plugin-proposal-class-properties"]
-                    }
-                },
+                use:  babelOptions()
             },
             {
                 test: /\.ts$/,
                 exclude: /node_modules/,
-                use: {
-                    loader: 'babel-loader',
-                    options: {
-                        presets: ['@babel/preset-env', '@babel/preset-typescript'],
-                        plugins: ["@babel/plugin-proposal-class-properties"]
-                    }
-                },
+                use: babelOptions('@babel/preset-typescript')
+            },
+            {
+                test: /\.jsx$/,
+                exclude: /node_modules/,
+                use: babelOptions('@babel/preset-react')
             }
         ]
     }
 }
+
+if (isDev) module.exports.devtool = 'source-map'
