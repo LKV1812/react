@@ -4,7 +4,6 @@ async function start() {
 
 start().then(console.log)
 
-let unin = 42
 class Util {
     static id = 12
 }

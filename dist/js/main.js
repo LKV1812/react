@@ -92,7 +92,6 @@ function _start() {
 }
 
 start().then(console.log);
-var unin = 42;
 
 var Util = /*#__PURE__*/_createClass(function Util() {
   _classCallCheck(this, Util);

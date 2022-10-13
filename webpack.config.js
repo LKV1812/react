@@ -49,11 +49,12 @@ module.exports = {
     mode: "development",
     entry: {
         main: ["@babel/polyfill", './index.jsx'],
-        analytics: ["@babel/polyfill", './analytics.ts']
+        analytics: ["@babel/polyfill", './analytics.ts'],
+        "data-type": ["@babel/polyfill", './lesson_1/data-type.ts']
     },
     output: {
         filename: filename('js'),
-        path: path.resolve(__dirname, 'dist')
+        path: path.resolve(__dirname, 'dist/js')
     },
     resolve: {
         alias: {
@@ -70,6 +71,7 @@ module.exports = {
         new CleanWebpackPlugin(),
         new HTMLWebpackPlugin({
             template: "./index.html",
+            filename: "../index.html",
             minify: {
                 collapseWhitespace: isProd
             }
