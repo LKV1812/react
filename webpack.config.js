@@ -48,13 +48,14 @@ module.exports = {
     context: path.resolve(__dirname, 'src'),
     mode: "development",
     entry: {
-        main: ["@babel/polyfill", './index.jsx'],
-        analytics: ["@babel/polyfill", './analytics.ts'],
-        "data-type": ["@babel/polyfill", './lesson_1/data-type.ts']
+        // main: ["@babel/polyfill", './index.jsx'],
+        // analytics: ["@babel/polyfill", './analytics.ts'],
+        lesson_2: ["@babel/polyfill", './Lesson_2/index.tsx'],
+        // "data-type": ["@babel/polyfill", './lesson_1/data-type.ts']
     },
     output: {
         filename: filename('js'),
-        path: path.resolve(__dirname, 'dist/js')
+        path: path.resolve(__dirname, 'dist')
     },
     resolve: {
         alias: {
@@ -64,14 +65,13 @@ module.exports = {
     },
     optimization: optimization(),
     devServer: {
-        port: 4200,
-        hot: isDev
+        port: 9000,
+        hot: isDev,
     },
     plugins: [
         new CleanWebpackPlugin(),
         new HTMLWebpackPlugin({
             template: "./index.html",
-            filename: "../index.html",
             minify: {
                 collapseWhitespace: isProd
             }
@@ -124,10 +124,10 @@ module.exports = {
                 use: babelOptions('@babel/preset-typescript')
             },
             {
-                test: /\.jsx$/,
+                test: /\.[tj]sx$/,
                 exclude: /node_modules/,
                 use: babelOptions('@babel/preset-react')
-            }
+            },
         ]
     }
 }
